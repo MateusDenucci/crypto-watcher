@@ -63,8 +63,8 @@ if __name__ == '__main__':
 
     tokens_to_watch = {
         'bit-hotel': 0.24,
-        'star-atlas': 0.013,
-        'ertha': 0.60,
+        'star-atlas': 0.13,
+        'ertha': 0.060,
     }
 
     check_prices(tokens_to_watch)
