@@ -54,7 +54,7 @@ def check_prices(tokens_to_watch):
 
     message = ''
     for token in token_prices:
-        message += f'The current price of the token {token} is {token_prices[token]} USD and the price you are looking for is {tokens_to_watch[token]} USD \n'
+        message += f'The current price of the token {token} is ${round(token_prices[token], 2)} USD and the price you are looking for is ${tokens_to_watch[token]} \n\n'
     
     send_telegram_message(message, os.getenv('PERSONAL_TELEGRAM_ID'))
 
@@ -66,6 +66,7 @@ if __name__ == '__main__':
         'bit-hotel': 0.24,
         'star-atlas': 0.13,
         'ertha': 0.60,
+        'cryptowolf-finance': 7.50,
     }
 
     check_prices(tokens_to_watch)
