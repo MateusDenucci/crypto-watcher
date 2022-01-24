@@ -5,6 +5,16 @@ from dotenv import load_dotenv
 import os
 
 
+load_dotenv()
+
+TOKENS_TO_WATCH = {
+    'bit-hotel': 0.24,
+    'star-atlas': 0.13,
+    'ertha': 0.60,
+    'cryptowolf-finance': 6.0,
+}
+
+
 def get_tokens_price(tokens):
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
 
@@ -47,26 +57,18 @@ def send_telegram_message(message, telegram_chat_id):
         return False
 
 
-def check_prices(tokens_to_watch):
-    tokens = [key for key in tokens_to_watch.keys()]
+def check_prices(only_price_achieved):
+    tokens = [key for key in TOKENS_TO_WATCH.keys()]
 
     token_prices = get_tokens_price(','.join(tokens))
 
     message = ''
-    for token in token_prices:
-        message += f'The current price of the token {token} is ${round(token_prices[token], 2)} USD and the price you are looking for is ${tokens_to_watch[token]} \n\n'
+    if only_price_achieved:
+        for token in token_prices:
+            if token_prices[token] >= TOKENS_TO_WATCH[token]:
+                message += f'TIME TO SELL! The current price of the token {token} is ${round(token_prices[token], 2)} USD and the price you are looking for is ${TOKENS_TO_WATCH[token]} \n\n'                
     
+    else:
+        for token in token_prices:
+            message += f'The current price of the token {token} is ${round(token_prices[token], 2)} USD and the price you are looking for is ${TOKENS_TO_WATCH[token]} \n\n'
     send_telegram_message(message, os.getenv('PERSONAL_TELEGRAM_ID'))
-
-
-if __name__ == '__main__':
-    load_dotenv()
-
-    tokens_to_watch = {
-        'bit-hotel': 0.24,
-        'star-atlas': 0.13,
-        'ertha': 0.60,
-        'cryptowolf-finance': 7.50,
-    }
-
-    check_prices(tokens_to_watch)
