@@ -7,13 +7,7 @@ import os
 
 load_dotenv()
 
-TOKENS_TO_WATCH = {
-    'bit-hotel': 0.24,
-    'star-atlas': 0.13,
-    'ertha': 0.60,
-    'cryptowolf-finance': 6.0,
-}
-
+TOKENS_TO_WATCH = json.loads(os.getenv('TOKENS_TO_WATCH'))
 
 def get_tokens_price(tokens):
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
